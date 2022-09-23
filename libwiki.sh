@@ -6,6 +6,8 @@ wiki() {
 		local config="$1"
 		local found=0
 		local proxy
+
+                _CFG=$(realpath $_CFG)
 		test $(stat -c %a "$_CFG") -gt 600 && { _LIBWIKI_ERROR="libwiki: config file has unsafe permisions."; return 1; }
                 _LIBWIKI_CURL=( "curl" )
 		while IFS='= ' read var val; do
@@ -34,7 +36,7 @@ wiki() {
 		trap 'rm -f ${_LIBWIKIRM[@]}' INT TERM EXIT
 
 		_LIBWIKI_AUTH=("--cookie-jar" "$_LIBWIKI_COOKIE"
-			"--cookie" "$_LIBWIKI_COOKIE" 
+			"--cookie" "$_LIBWIKI_COOKIE"
 			"--insecure" "--silent" )
 
 		local token=$("${_LIBWIKI_CURL[@]}" "${_LIBWIKI_AUTH[@]}" "${_LIBWIKI_URL}/api.php?action=query&meta=tokens&type=login&format=json" | jq -r .query.tokens.logintoken)
@@ -62,7 +64,7 @@ wiki() {
 		_LIBWIKIRM+=( "$_LIBWIKI_COOKIE" )
 		trap 'rm -f ${_LIBWIKIRM[@]}' INT TERM EXIT
 		_LIBWIKI_AUTH=("--cookie-jar" "$_LIBWIKI_COOKIE"
-			"--cookie" "$_LIBWIKI_COOKIE" 
+			"--cookie" "$_LIBWIKI_COOKIE"
 			"--user" "${_LIBWIKI_USER}:${_LIBWIKI_PASSWORD}"
 			"--insecure" "--silent"
 			"--header" "Content-Type: appliaction/xml" )
