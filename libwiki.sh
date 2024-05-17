@@ -67,7 +67,7 @@ wiki() {
 			"--cookie" "$_LIBWIKI_COOKIE"
 			"--user" "${_LIBWIKI_USER}:${_LIBWIKI_PASSWORD}"
 			"--insecure" "--silent"
-			"--header" "Content-Type: appliaction/xml" )
+			"--header" "Content-Type: application/xml" )
 		result=$("${_LIBWIKI_CURL[@]}" "${_LIBWIKI_AUTH[@]}" \
 			--data "
 			<?xml version="1.0"?>
